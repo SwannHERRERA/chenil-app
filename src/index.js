@@ -25,11 +25,14 @@ client.on("ready", () => {
 
 client.on("message", (msg) => {
   if (msg.content === "insulte gengu") {
-    msg.channel.send(createInsulte());
+    msg.channel.send(createInsulte("gengu"));
   }
-
+  if (msg.content === "insulte namkwa") {
+    msg.channel.send(createInsulte("namwka"));
+  }
   if (msg.content === "bot-dog-gengu help") {
     msg.reply("Pour que le chien insulte gengu ```insulte gengu```");
+    msg.reply("Pour que le chien insulte namkwa ```insulte namkwa```");
   }
 });
 
@@ -57,8 +60,19 @@ function getServerId() {
   throw new Error("process.env.TEST_SERVER_ID not define");
 }
 
-function createInsulte() {
-  const dest = "@gengu";
+function createInsulte(user) {
+  let dest;
+  switch (user) {
+    case "namkwa":
+	dest = "<@145994841560580096>";
+ 	break;
+   case "gengu":
+    	dest = "<@302468272325001216>";
+    	break;
+   default :
+	dest = "";
+	break;
+  }
   const insulte = bark[randomInt(bark.length)];
   return `${dest} ${insulte}`;
 }
