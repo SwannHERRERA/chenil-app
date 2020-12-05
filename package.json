@@ -1,0 +1,29 @@
+{
+  "name": "discord-bot-gengu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "jest",
+    "watch": "jest --watchAll",
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "@types/node": "^14.14.10",
+    "@types/ws": "^7.4.0",
+    "jest-cucumber": "^3.0.0",
+    "nodemon": "^2.0.6",
+    "ts-node": "^9.1.0",
+    "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0"
+  }
+}
