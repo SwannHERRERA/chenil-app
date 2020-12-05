@@ -40,10 +40,10 @@ function getChannel(channelId) {
 }
 
 function getChannelToken() {
-  if (process.env.CHANNEL_TEST_ID != undefined) {
-    return process.env.CHANNEL_TEST_ID;
+  if (process.env.BARKING_HARD_ID != undefined) {
+    return process.env.BARKING_HARD_ID;
   }
-  throw new Error("process.env.CHANNEL_TEST_ID not define");
+  throw new Error("process.env.BARKING_HARD_ID not define");
 }
 
 /**
@@ -54,7 +54,7 @@ function getServerId() {
   if (process.env.TEST_SERVER_ID != undefined) {
     return process.env.TEST_SERVER_ID;
   }
-  throw new Error("process.env.CHANNEL_TEST_ID not define");
+  throw new Error("process.env.TEST_SERVER_ID not define");
 }
 
 function createInsulte() {
