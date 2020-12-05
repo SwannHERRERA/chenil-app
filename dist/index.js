@@ -14,15 +14,16 @@ import { bark } from "./insulte.js";
 dotenv.config();
 const client = new Discord.Client();
 const token = process.env.DISCORD_TOKEN;
-client.on("ready", () => __awaiter(void 0, void 0, void 0, function* () {
+client.on("ready", () => {
     if (client.user && client.user.tag) {
         console.log(`Logged in as ${client.user.tag}!`);
     }
-    const channel = yield getChannel();
+    const channelId = getChannelToken();
+    const channel = getChannel(channelId);
     setInterval(() => {
         channel.send(createInsulte());
     }, 50000);
-}));
+});
 client.on("message", (msg) => {
     if (msg.content === "insulte gengu") {
         msg.channel.send(createInsulte());
@@ -32,14 +33,9 @@ client.on("message", (msg) => {
     }
 });
 client.login(token);
-function getChannel() {
+function getChannel(channelId) {
     return __awaiter(this, void 0, void 0, function* () {
-        const server = yield client.guilds.fetch(getServerId());
-        const channel = (yield server.channels.resolve(getChannelToken()));
-        if (channel == null) {
-            throw new Error("channel undefined");
-        }
-        return channel;
+        return client.channels.find((channel) => channel.id === channelId);
     });
 }
 function getChannelToken() {

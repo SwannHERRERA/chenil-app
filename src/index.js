@@ -16,9 +16,11 @@ client.on("ready", () => {
 
   const channel = getChannel(channelId);
 
+  const dayInMilisec = 24 * 3600 * 100; // hours * nbsec in minute * 100 for mili
+
   setInterval(() => {
     channel.send(createInsulte());
-  }, 50000);
+  }, dayInMilisec);
 });
 
 client.on("message", (msg) => {
@@ -33,25 +35,29 @@ client.on("message", (msg) => {
 
 client.login(token);
 
-async function getChannel(channelId: string): Discord.TextChannel {
-  return client.channels.find((channel) => channel.id === channelId);
+function getChannel(channelId) {
+  return client.channels.cache.get(channelId);
 }
 
-function getChannelToken(): string {
+function getChannelToken() {
   if (process.env.CHANNEL_TEST_ID != undefined) {
     return process.env.CHANNEL_TEST_ID;
   }
   throw new Error("process.env.CHANNEL_TEST_ID not define");
 }
 
-function getServerId(): string {
+/**
+ * @deprecated
+ * @deadCode
+ */
+function getServerId() {
   if (process.env.TEST_SERVER_ID != undefined) {
     return process.env.TEST_SERVER_ID;
   }
   throw new Error("process.env.CHANNEL_TEST_ID not define");
 }
 
-function createInsulte(): string {
+function createInsulte() {
   const dest = "@gengu";
   const insulte = bark[randomInt(bark.length)];
   return `${dest} ${insulte}`;

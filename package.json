@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest",
     "watch": "jest --watchAll",
-    "dev": "tsc -w",
-    "start": "nodemon dist/index.js"
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
   },
   "type": "module",
   "keywords": [],
