@@ -28,7 +28,7 @@ client.on("message", (msg) => {
     msg.channel.send(createInsulte("gengu"));
   }
   if (msg.content === "insulte namkwa") {
-    msg.channel.send(createInsulte("namwka"));
+    msg.channel.send(createInsulte("namkwa"));
   }
   if (msg.content === "bot-dog-gengu help") {
     msg.reply("Pour que le chien insulte gengu ```insulte gengu```");
@@ -64,14 +64,14 @@ function createInsulte(user) {
   let dest;
   switch (user) {
     case "namkwa":
-	dest = "<@145994841560580096>";
- 	break;
-   case "gengu":
-    	dest = "<@302468272325001216>";
-    	break;
-   default :
-	dest = "";
-	break;
+      dest = "<@145994841560580096>";
+      break;
+    case "gengu":
+      dest = "<@302468272325001216>";
+      break;
+    default:
+      dest = "";
+      break;
   }
   const insulte = bark[randomInt(bark.length)];
   return `${dest} ${insulte}`;
