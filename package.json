@@ -15,6 +15,7 @@
     "nodemon": "^2.0.6"
   },
   "dependencies": {
+    "@fightmegg/riot-api": "0.0.6",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0"
   }
