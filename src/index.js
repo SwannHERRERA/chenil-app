@@ -3,6 +3,7 @@ import { randomInt } from "crypto";
 import Discord, { Message, ReactionUserManager } from "discord.js";
 import { bark } from "./insulte.js";
 import { RiotAPI, RiotAPITypes, PlatformId } from "@fightmegg/riot-api";
+import { throws } from "assert";
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ client.on("ready", () => {
 });
 
 client.on("message", handleMessage);
+client.login(token);
 
 function handleMessage(msg) {
   switch (msg.content.toLowerCase()) {
@@ -72,32 +74,68 @@ function displayBotHelp(msg) {
   msg.reply("Pour que le chien insulte quelqu'un ```insulte pseudo/prenom```");
 }
 
-client.login(token);
-
 function generateBoadContent(lastMatch) {
-  const ids = Object.values(summonerIds);
-  const ServUserInGame = lastMatch.participantIdentities.filter(
-    (participant) => {
-      return ids.includes(participant.player.accountId);
-    }
-  );
-  const idLol = ServUserInGame.map((participant) => participant.participantId);
-  console.log(idLol);
-  const participants = lastMatch.participants.filter((participant) => {
-    return idLol.includes(participant.participantId);
-  });
-  const kda = [];
-  participants.forEach((participant) => {
-    kda.push(calculateKDA(participant));
-  });
-  console.dir(participants);
-  return `\`\`\`JSON
-    ${JSON.stringify(kda)}
-  \`\`\``;
+  const ServUserInGame = getServUserInGame(lastMatch);
+  const participants = getServParticipantInGame(lastMatch, ServUserInGame);
+  const kda = getKDA(participants, ServUserInGame);
+
+  return createBoardMessage(kda);
 }
 
-function calculateKDA(participant) {
-  (participant.kills + participant.assists) / participant.deaths;
+function getServUserInGame(game) {
+  const ids = Object.values(summonerIds);
+  return game.participantIdentities.filter((participant) => {
+    return ids.includes(participant.player.accountId);
+  });
+}
+
+function getServParticipantInGame(game, ServUserInGame) {
+  const idLol = ServUserInGame.map((participant) => participant.participantId);
+  return game.participants.filter((participant) => {
+    return idLol.includes(participant.participantId);
+  });
+}
+
+function getKDA(participants, ServUserInGame) {
+  const kda = new Map();
+  participants.forEach((participant) => {
+    kda.set(
+      findSummonerNameByParticipantId(
+        ServUserInGame,
+        participant.participantId
+      ),
+      calculateKDA(participant.stats)
+    );
+  });
+  return kda;
+}
+
+function createBoardMessage(kda) {
+  let result = `\`\`\`JSON\n`;
+  kda.forEach((value, key) => (result += `${key}: ${value}\n`));
+  result += `\`\`\``;
+  return result;
+}
+
+function findSummonerNameByParticipantId(participants, participantId) {
+  const participant = participants.filter(
+    (participant) => participant.participantId === participantId
+  );
+  if (
+    participant[0] &&
+    participant[0].player &&
+    participant[0].player.summonerName
+  ) {
+    return participant[0].player.summonerName;
+  }
+  return 0;
+}
+
+function calculateKDA(stats) {
+  if (stats.deaths === 0) {
+    return `Perfect KDA K+A: ${stats.kills + stats.assists}`;
+  }
+  return (stats.kills + stats.assists) / stats.deaths;
 }
 
 async function getLastMatch(id) {
@@ -135,6 +173,7 @@ async function getSummoner(name) {
 function getChannel(channelId) {
   return client.channels.cache.get(channelId);
 }
+
 /**
  * @deprecated
  * @deadCode
