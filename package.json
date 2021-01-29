@@ -12,11 +12,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "tailwindcss": "^2.0.2"
   },
   "dependencies": {
     "@fightmegg/riot-api": "0.0.6",
+    "autoprefixer": "^10.2.3",
     "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "gatsby-plugin-postcss": "^3.6.0",
+    "postcss": "^8.2.4"
   }
 }

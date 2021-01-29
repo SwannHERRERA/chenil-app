@@ -29,7 +29,7 @@ client.login(token);
 function handleMessage(msg) {
   switch (msg.content.toLowerCase()) {
     case "board":
-      handleBoard(msg.author.username, msg);
+      // handleBoard(msg.author.username, msg);
       break;
     case "insulte gengu":
     case "insulte jean-loup":
@@ -139,30 +139,42 @@ function calculateKDA(stats) {
 }
 
 async function getLastMatch(id) {
-  const lastMatch = await rAPI.match.getById({
-    region: PlatformId.EUW1,
-    matchId: id,
-  });
-  return lastMatch;
+  try {
+    const lastMatch = await rAPI.match.getById({
+      region: PlatformId.EUW1,
+      matchId: id,
+    });
+    return lastMatch;
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 async function getMatchList(summonerId) {
-  const lastMatchs = await rAPI.match.getMatchlistByAccount({
-    region: PlatformId.EUW1,
-    accountId: summonerId,
-    params: {
-      endIndex: 1,
-    },
-  });
-  return lastMatchs;
+  try {
+    const lastMatchs = await rAPI.match.getMatchlistByAccount({
+      region: PlatformId.EUW1,
+      accountId: summonerId,
+      params: {
+        endIndex: 1,
+      },
+    });
+    return lastMatchs;
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 async function getSummoner(name) {
-  const summoner = await rAPI.summoner.getBySummonerName({
-    region: PlatformId.EUW1,
-    summonerName: name,
-  });
-  return summoner;
+  try {
+    const summoner = await rAPI.summoner.getBySummonerName({
+      region: PlatformId.EUW1,
+      summonerName: name,
+    });
+    return summoner;
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 /**
