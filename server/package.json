@@ -42,6 +42,7 @@
     "ramda": "^0.25.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
+    "typeorm": "^0.2.30",
     "uuid": "^3.3.2",
     "winston": "^3.0.0"
   },
