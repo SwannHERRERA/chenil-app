@@ -2,6 +2,7 @@
   "name": "api-koa-typescript-starter",
   "description": "A boiler-plate setup for API servers with Koa and TypeScript",
   "version": "0.0.1",
+  "type": "module",
   "license": "MIT",
   "repository": {
     "type": "git",

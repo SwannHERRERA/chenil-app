@@ -1,5 +1,5 @@
 import koaRouter from "koa-router";
-import { login } from "./admin.controller";
+import { login } from "./user.controller";
 import { validateParams } from "../../middleware/validate-params";
 import { authorize } from "../../middleware/authorize";
 
