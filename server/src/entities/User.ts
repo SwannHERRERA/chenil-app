@@ -1,45 +1,43 @@
-import { ObjectType, Field } from "type-graphql";
 import {
   Entity,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
   Column,
-  BaseEntity,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
-import { Post } from "./Post";
-import { Updoot } from "./Updoot";
+import { Alias } from "./Alias";
+import { Insult } from "./Insult";
 
-@ObjectType()
 @Entity()
-export class User extends BaseEntity {
-  @Field()
-  @PrimaryGeneratedColumn()
-  id!: number;
-
-  @Field()
-  @Column({ unique: true })
-  username!: string;
-
-  @Field()
-  @Column({ unique: true })
-  email!: string;
+export class User {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
-  password!: string;
+  firstName: string;
 
-  @OneToMany(() => Post, (post) => post.creator)
-  posts: Post[];
+  @Column()
+  lastName: string;
 
-  @OneToMany(() => Updoot, (updoot) => updoot.user)
-  updoots: Updoot[];
+  @Column()
+  age: number;
 
-  @Field(() => String)
-  @CreateDateColumn()
-  createdAt: Date;
+  @Column()
+  email: string;
 
-  @Field(() => String)
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @Column()
+  password: string;
+
+  @Column()
+  id_discord: string;
+
+  @OneToMany(() => Alias, (alias) => alias.user)
+  alias: Alias[];
+
+  @ManyToMany(() => Insult, (insult) => insult.users, {
+    cascade: true,
+  })
+  @JoinTable()
+  insults: Insult[];
 }
