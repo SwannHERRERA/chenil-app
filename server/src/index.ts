@@ -1,34 +1,31 @@
 import "dotenv-safe/config";
 import path from "path";
+import pino from "pino";
 import { createConnection } from "typeorm";
 import { User } from "./entities/User";
 import { Alias } from "./entities/Alias";
 import { Insult } from "./entities/Insult";
-import argon2 from 'argon2';
+import { AppServer, createServer } from "./server";
 
 const main = async () => {
-  const conn = await createConnection({
-    type: "postgres",
-    url: process.env.DATABASE_URL,
-    logging: true,
-    // synchronize: true,
-    migrations: [path.join(__dirname, "./migrations/*")],
-    entities: [Insult, User, Alias],
-  });
-  const userRepo = conn.getRepository(User);
-  const swann = new User();
-  swann.age = 20;
-  swann.firstName = "swann";
-  swann.lastName = "Herrera";
-  swann.email = "swann@graines-octets.com";
-  swann.id_discord = "154544sdzfef";
+  const logger = pino();
   try {
-    swann.password = await argon2.hash("azer");
-  } catch (err) {
-    console.error(err);
+    const conn = await createConnection({
+      type: "postgres",
+      url: process.env.DATABASE_URL,
+      logging: true,
+      // synchronize: true,
+      migrations: [path.join(__dirname, "./migrations/*")],
+      entities: [Insult, User, Alias],
+    });
+    const port = Number(process.env.PORT) || 8080;
+    const app = createServer();
+    app.listen(port);
+    logger.info(`application running on port: ${port}`);
+  } catch (error) {
+    logger.error(error, "Error occurred while initializing application");
   }
-  await userRepo.save(swann);
-}
+};
 
 main().catch((err) => {
   console.error(err);
