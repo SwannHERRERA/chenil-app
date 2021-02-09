@@ -1,23 +1,10 @@
-import "reflect-metadata";
 import "dotenv-safe/config";
-import { __prod__, COOKIE_NAME } from "./constants";
-import express from "express";
-import { ApolloServer } from "apollo-server-express";
-import { buildSchema } from "type-graphql";
-import { HelloResolver } from "./resolvers/hello";
-import { PostResolver } from "./resolvers/post";
-import { UserResolver } from "./resolvers/user";
-import Redis from "ioredis";
-import session from "express-session";
-import connectRedis from "connect-redis";
-import cors from "cors";
-import { createConnection } from "typeorm";
-import { Post } from "./entities/Post";
-import { User } from "./entities/User";
 import path from "path";
-import { Updoot } from "./entities/Updoot";
-import { createUserLoader } from "./utils/createUserLoader";
-import { createUpdootLoader } from "./utils/createUpdootLoader";
+import { createConnection } from "typeorm";
+import { User } from "./entities/User";
+import { Alias } from "./entities/Alias";
+import { Insult } from "./entities/Insult";
+import argon2 from 'argon2';
 
 const main = async () => {
   const conn = await createConnection({
@@ -26,66 +13,22 @@ const main = async () => {
     logging: true,
     // synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
-    entities: [Post, User, Updoot],
+    entities: [Insult, User, Alias],
   });
-  // await conn.runMigrations();
-
-  // await Post.delete({});
-
-  const app = express();
-
-  const RedisStore = connectRedis(session);
-  const redis = new Redis(process.env.REDIS_URL);
-  app.set("trust proxy", 1);
-  app.use(
-    cors({
-      origin: process.env.CORS_ORIGIN,
-      credentials: true,
-    })
-  );
-  app.use(
-    session({
-      name: COOKIE_NAME,
-      store: new RedisStore({
-        client: redis,
-        disableTouch: true,
-      }),
-      cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
-        httpOnly: true,
-        sameSite: "lax", // csrf
-        secure: __prod__, // cookie only works in https
-        domain: __prod__ ? ".codeponder.com" : undefined,
-      },
-      saveUninitialized: false,
-      secret: process.env.SESSION_SECRET,
-      resave: false,
-    })
-  );
-
-  const apolloServer = new ApolloServer({
-    schema: await buildSchema({
-      resolvers: [HelloResolver, PostResolver, UserResolver],
-      validate: false,
-    }),
-    context: ({ req, res }) => ({
-      req,
-      res,
-      redis,
-      userLoader: createUserLoader(),
-      updootLoader: createUpdootLoader(),
-    }),
-  });
-
-  apolloServer.applyMiddleware({
-    app,
-    cors: false,
-  });
-
-  app.listen(parseInt(process.env.PORT), () => {
-    console.log("server started on localhost:4000");
-  });
-};
+  const userRepo = conn.getRepository(User);
+  const swann = new User();
+  swann.age = 20;
+  swann.firstName = "swann";
+  swann.lastName = "Herrera";
+  swann.email = "swann@graines-octets.com";
+  swann.id_discord = "154544sdzfef";
+  try {
+    swann.password = await argon2.hash("azer");
+  } catch (err) {
+    console.error(err);
+  }
+  await userRepo.save(swann);
+}
 
 main().catch((err) => {
   console.error(err);

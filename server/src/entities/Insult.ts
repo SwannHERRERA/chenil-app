@@ -1,8 +1,11 @@
-import { Entity, Column, ManyToMany } from "typeorm";
+import { Entity, Column, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./User";
 
 @Entity()
 export class Insult {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
+
   @Column()
   text: string;
 
