@@ -1,9 +1,13 @@
 import React from "react";
+import logo from "../images/Vector.svg";
 
 const LoginCard = () => (
   <div className="bg-white dark:bg-gray-900 p-14 shadow sm:rounded-lg">
     <form className="space-y-4" action="#" method="POST">
-      <h1 className="text-4xl text-center text-yellow-400">Login</h1>
+      <div className="flex justify-between">
+        <h1 className="text-4xl text-center text-yellow-400 mr-2">Les évadés du chenil</h1>
+        <img src={logo} alt="logo"/>
+      </div>
       <div>
         <label
           htmlFor="email"

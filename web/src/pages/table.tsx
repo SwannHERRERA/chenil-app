@@ -1,5 +1,6 @@
 import React from "react";
 import { useTable, usePagination } from "react-table";
+import Layout from '../components/Layout';
 
 import makeData from "../makeData";
 
@@ -152,17 +153,17 @@ function TablePage() {
   const data = React.useMemo(() => makeData(100000), []);
 
   return (
-    <div class="max-w-7xl pt-4 mx-auto sm:px-6 lg:px-8 bg-gray-700 h-screen">
+    <Layout>
       <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-            <div class="shadow overflow-hidden border-b border-gray-800 sm:rounded-lg">
+          <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+            <div className="shadow overflow-hidden border-b border-gray-800 sm:rounded-lg">
               <Table columns={columns} data={data} />
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

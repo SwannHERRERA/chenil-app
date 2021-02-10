@@ -1,11 +1,10 @@
 import React from "react";
 import LoginCard from "../components/loginCard";
-import Header from "../components/header";
+import Layout from "../components/Layout";
 
 // markup
 const IndexPage = () => (
   <main className="xl:grid xl:grid-cols-2 h-screen dark:bg-gray-800">
-    <Header siteTitle="Les évades du chenil" />
     <div className="col-start-1 h-full flex items-center justify-center">
       <LoginCard />
     </div>
