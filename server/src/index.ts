@@ -5,7 +5,7 @@ import { createConnection } from "typeorm";
 import { User } from "./entities/User";
 import { Alias } from "./entities/Alias";
 import { Insult } from "./entities/Insult";
-import { AppServer, createServer } from "./server";
+import { createServer } from "./server";
 
 const main = async () => {
   const logger = pino();
@@ -19,7 +19,7 @@ const main = async () => {
       entities: [Insult, User, Alias],
     });
     const port = Number(process.env.PORT) || 8080;
-    const app = createServer();
+    const app = await createServer();
     app.listen(port);
     logger.info(`application running on port: ${port}`);
   } catch (error) {

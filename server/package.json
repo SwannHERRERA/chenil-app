@@ -20,6 +20,7 @@
     "@types/connect-redis": "^0.0.14",
     "@types/cors": "^2.8.7",
     "@types/ioredis": "^4.17.3",
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/koa": "^2.11.7",
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-helmet": "^6.0.2",
@@ -35,7 +36,7 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "apollo-server-express": "^2.16.1",
+    "apollo-server-koa": "^2.20.0",
     "argon2": "^0.26.2",
     "async": "^3.2.0",
     "connect-redis": "^5.0.0",
@@ -44,6 +45,7 @@
     "dotenv-safe": "^8.2.0",
     "graphql": "^15.3.0",
     "ioredis": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-helmet": "^6.0.0",
@@ -55,12 +57,5 @@
     "type-graphql": "^1.0.0-rc.3",
     "typeorm": "^0.2.25",
     "uuid": "^8.3.0"
-  },
-  "mikro-orm": {
-    "useTsNode": true,
-    "configPaths": [
-      "./src/mikro-orm.config.ts",
-      "./dist/mikro-orm.config.js"
-    ]
   }
 }

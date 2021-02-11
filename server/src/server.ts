@@ -6,6 +6,9 @@ import * as userRoute from "./routes/User";
 import * as middlewares from "./middleware";
 import pino from "pino";
 import helmet from "koa-helmet";
+import { ApolloServer } from "apollo-server-koa";
+import { UserResolver } from "./resolvers/UserResolver";
+import { buildSchemaSync } from "type-graphql";
 export class AppServer {
   private app: Koa;
   private server: Server;
@@ -63,13 +66,27 @@ export function createServer(): AppServer {
   const appSrv = new AppServer(app);
   const logger = pino();
 
-  app.use(helmet());
+  app.use(
+    helmet({
+      contentSecurityPolicy:
+        process.env.NODE_ENV === "production" ? undefined : false,
+    })
+  );
   app.use(middlewares.responseTime);
   app.use(middlewares.logRequest(logger));
   app.use(middlewares.errorHandler(logger));
 
   // Register routes
   userRoute.init(app);
+  const schema = buildSchemaSync({
+    resolvers: [UserResolver],
+  });
+  const apolloServer = new ApolloServer({
+    schema,
+    context: ({ req, res }) => ({ req, res }),
+  });
+
+  apolloServer.applyMiddleware({ app });
 
   return appSrv;
 }
