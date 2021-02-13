@@ -7,6 +7,7 @@ import * as middlewares from "./middleware";
 import pino from "pino";
 import helmet from "koa-helmet";
 import { ApolloServer } from "apollo-server-koa";
+import cors from "@koa/cors";
 import { UserResolver } from "./resolvers/UserResolver";
 import { buildSchemaSync } from "type-graphql";
 export class AppServer {
@@ -72,6 +73,7 @@ export function createServer(): AppServer {
         process.env.NODE_ENV === "production" ? undefined : false,
     })
   );
+  app.use(cors());
   app.use(middlewares.responseTime);
   app.use(middlewares.logRequest(logger));
   app.use(middlewares.errorHandler(logger));
@@ -83,10 +85,10 @@ export function createServer(): AppServer {
   });
   const apolloServer = new ApolloServer({
     schema,
-    context: ({ req, res }) => ({ req, res }),
+    context: ({ ctx }) => ({ ctx }),
   });
 
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({ app, cors: false });
 
   return appSrv;
 }

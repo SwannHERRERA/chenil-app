@@ -7,14 +7,19 @@ import {
   Int,
   ObjectType,
   Field,
+  UseMiddleware,
+  Ctx,
 } from "type-graphql";
 import argon2 from "argon2";
-import { sign } from "jsonwebtoken";
+import { createAccessToken, isAuth } from "../middleware/authentication";
+import { MyContext } from "../MyContext";
 
 @ObjectType()
 class LoginResponse {
   @Field()
   accessToken: string;
+  @Field()
+  user: User;
 }
 
 @Resolver()
@@ -22,6 +27,14 @@ export class UserResolver {
   @Query(() => [User])
   getUsers() {
     return User.find();
+  }
+
+  @Query(() => String)
+  @UseMiddleware(isAuth)
+  getMyId(@Ctx() { ctx }: MyContext) {
+    console.log(ctx);
+    const userId = ctx.payload?.userId;
+    return `your user id is: ${userId}`;
   }
 
   @Mutation(() => LoginResponse)
@@ -38,16 +51,14 @@ export class UserResolver {
       throw new Error("Inccorect login");
     }
 
-    const secretKey = String(process.env.JWT_SECRET_KEY);
-
     return {
-      accessToken: sign({ userId: user.id }, secretKey, {
-        expiresIn: "15m",
-      }),
+      accessToken: createAccessToken(user),
+      user,
     };
   }
 
   @Mutation(() => User)
+  @UseMiddleware(isAuth)
   async addUser(
     @Arg("email") email: string,
     @Arg("password") password: string,

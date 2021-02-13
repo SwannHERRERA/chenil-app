@@ -14,6 +14,7 @@ import { Insult } from "./Insult";
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
+  @Field()
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -40,6 +41,9 @@ export class User extends BaseEntity {
   @Field()
   @Column()
   id_discord: string;
+
+  @Column("int", { default: 0 })
+  tokenVersion: number;
 
   @OneToMany(() => Alias, (alias) => alias.user)
   alias: Alias[];
