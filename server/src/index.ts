@@ -10,7 +10,7 @@ import { createServer } from "./server";
 const main = async () => {
   const logger = pino();
   try {
-    const conn = await createConnection({
+    await createConnection({
       type: "postgres",
       url: process.env.DATABASE_URL,
       logging: true,

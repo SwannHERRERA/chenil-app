@@ -10,6 +10,7 @@ import { ApolloServer } from "apollo-server-koa";
 import cors from "@koa/cors";
 import { UserResolver } from "./resolvers/UserResolver";
 import { buildSchemaSync } from "type-graphql";
+import cookie from "koa-cookie";
 export class AppServer {
   private app: Koa;
   private server: Server;
@@ -74,6 +75,7 @@ export function createServer(): AppServer {
     })
   );
   app.use(cors());
+  app.use(cookie());
   app.use(middlewares.responseTime);
   app.use(middlewares.logRequest(logger));
   app.use(middlewares.errorHandler(logger));

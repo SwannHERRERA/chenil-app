@@ -11,8 +11,14 @@ import {
   Ctx,
 } from "type-graphql";
 import argon2 from "argon2";
-import { createAccessToken, isAuth } from "../middleware/authentication";
-import { MyContext } from "../MyContext";
+import { isAuth } from "../middleware/authentication";
+import {
+  createAccessToken,
+  createRefreshToken,
+  sendRefreshToken,
+} from "../utils/authentication";
+import { Context } from "koa";
+import { getConnection } from "typeorm";
 
 @ObjectType()
 class LoginResponse {
@@ -31,16 +37,26 @@ export class UserResolver {
 
   @Query(() => String)
   @UseMiddleware(isAuth)
-  getMyId(@Ctx() { ctx }: MyContext) {
+  getMyId(@Ctx() { ctx }: Context) {
     console.log(ctx);
     const userId = ctx.payload?.userId;
     return `your user id is: ${userId}`;
   }
 
+  @Mutation(() => Boolean)
+  async revokeRefreshTokensForUser(@Arg("userId") userId: string) {
+    await getConnection()
+      .getRepository(User)
+      .increment({ id: userId }, "tokenVersion", 1);
+
+    return true;
+  }
+
   @Mutation(() => LoginResponse)
   async login(
     @Arg("email") email: string,
-    @Arg("password") password: string
+    @Arg("password") password: string,
+    @Ctx() { ctx }: Context
   ): Promise<LoginResponse> {
     const user = await User.findOne({ where: { email } });
     if (!user) {
@@ -50,6 +66,8 @@ export class UserResolver {
     if (!valid) {
       throw new Error("Inccorect login");
     }
+
+    sendRefreshToken(ctx, createRefreshToken(user));
 
     return {
       accessToken: createAccessToken(user),

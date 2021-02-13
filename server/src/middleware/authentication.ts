@@ -1,23 +1,8 @@
-import { User } from "../entities/User";
-import { sign, verify } from "jsonwebtoken";
+import { verify } from "jsonwebtoken";
 import { Middleware } from "type-graphql/dist/interfaces/Middleware";
-import { MyContext } from "../MyContext";
+import { Context } from "koa";
 
-export const createAccessToken = (user: User) => {
-  const secretKey = String(process.env.ACCESS_TOKEN_SECRET);
-  return sign({ userId: user.id }, secretKey, {
-    expiresIn: "15m",
-  });
-};
-
-export const createRefreshToken = (user: User) => {
-  const secretKey = String(process.env.REFRESH_TOKEN_SECRET);
-  return sign({ userId: user.id, tokenVersion: user.tokenVersion }, secretKey, {
-    expiresIn: "7d",
-  });
-};
-
-export const isAuth: Middleware<MyContext> = ({ context }, next) => {
+export const isAuth: Middleware<Context> = ({ context }, next) => {
   const ctx = context.ctx;
 
   const authorization = ctx.req.headers["authorization"];
