@@ -7,3 +7,5 @@ This projet respect [Semantic Versioning](https://semver.org/) and the [recomman
 ## [Unreleased]
 ## [0.1.0] - 2021-03-08
 ### Added
+- inital project
+- first jet for the model idea
