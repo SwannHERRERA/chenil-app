@@ -1,56 +1,36 @@
-import { Field, Int, ObjectType } from "type-graphql";
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToMany,
-  ManyToMany,
-  JoinTable,
-  BaseEntity,
-} from "typeorm";
-import { Alias } from "./Alias";
-import { Insult } from "./Insult";
-
-@ObjectType()
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { IsEmail } from "class-validator";
+import { UserType } from "./UserType";
 @Entity()
-export class User extends BaseEntity {
-  @Field()
+export class User {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  UserId: string;
 
-  @Field()
   @Column()
   firstName: string;
 
-  @Field()
   @Column()
   lastName: string;
 
-  @Field(() => Int)
   @Column()
-  age: number;
+  inGamePseudo: String;
 
-  @Field()
   @Column()
+  @IsEmail()
   email: string;
 
-  @Field()
   @Column()
   password: string;
 
-  @Field()
-  @Column()
-  id_discord: string;
+  @Column({ nullable: true })
+  idDiscord: string;
 
-  @Column("int", { default: 0 })
+  @Column({ type: "int" })
   tokenVersion: number;
 
-  @OneToMany(() => Alias, (alias) => alias.user)
-  alias: Alias[];
+  @Column({ type: "int" })
+  pansuns: Number;
 
-  @ManyToMany(() => Insult, (insult) => insult.users, {
-    cascade: true,
-  })
-  @JoinTable()
-  insults: Insult[];
+  @ManyToMany(() => UserType, (userType) => userType.users)
+  types: UserType[];
 }

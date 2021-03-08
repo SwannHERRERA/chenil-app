@@ -1,15 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn } from "typeorm";
 import { User } from "./User";
 @Entity()
 export class Alias {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  AliasId: string;
 
   @Column()
   name: string;
 
-  @ManyToOne(() => User, (user) => user.alias, {
-    onDelete: "CASCADE"
-  })
+  @JoinColumn()
   user: User;
 }
