@@ -29,7 +29,7 @@ export class User {
   tokenVersion: number;
 
   @Column({ type: "int" })
-  pansuns: Number;
+  pansuns: number;
 
   @ManyToMany(() => UserType, (userType) => userType.users)
   types: UserType[];
