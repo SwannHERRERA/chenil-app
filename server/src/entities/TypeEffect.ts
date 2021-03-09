@@ -9,7 +9,7 @@ export class TypeEffect {
   @OneToOne(() => Type)
   fromType: Type;
 
-  @OneToOne(() => Type)
+  @OneToOne(() => Type) // Probably not OneToOne cause 1 type can be linked to many type...
   toType: Type;
 
   @Column()
