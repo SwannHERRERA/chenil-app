@@ -1,11 +1,13 @@
 import {
   Column,
   Entity,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { EvolutionLine } from "./EvolutionLine";
+import { TemtemHaveTrait } from "./TemtemHaveTrait";
 import { TemtemImage } from "./TemtemImage";
 
 @Entity()
@@ -39,6 +41,9 @@ export class Temtem {
 
   @ManyToOne(() => EvolutionLine, (evolutionLine) => evolutionLine.name)
   evolutionLine: EvolutionLine;
+
+  @OneToMany(() => TemtemHaveTrait, (TemtemHaveTrait) => TemtemHaveTrait.trait)
+  traits: TemtemHaveTrait[];
 
   /**
    * firstType,
