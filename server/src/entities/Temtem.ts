@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { EvolutionLine } from "./EvolutionLine";
-import { TemtemHaveMove } from "./TemtemHaveMove";
 import { TemtemHaveTrait } from "./TemtemHaveTrait";
 import { TemtemImage } from "./TemtemImage";
 import { TemtemLocationPossibility } from "./TemtemLocationPossibility";
@@ -47,16 +46,16 @@ export class Temtem {
   @OneToMany(() => TemtemHaveTrait, (TemtemHaveTrait) => TemtemHaveTrait.temtem)
   traits: TemtemHaveTrait[];
 
-  @OneToMany(() => TemtemLocationPossibility, (temtemLocationPossibility) => temtemLocationPossibility.temtem)
+  @OneToMany(
+    () => TemtemLocationPossibility,
+    (temtemLocationPossibility) => temtemLocationPossibility.temtem
+  )
   locationPossibility: TemtemLocationPossibility[];
 
-  @OneToMany(() => TemtemHaveMove, temtemHaveMove => temtemHaveMove.temtem)
-  moves: TemtemHaveMove[];
-
-  @ManyToOne(() => Type, type => type.temtemFirstType)
+  @ManyToOne(() => Type, (type) => type.temtemFirstType)
   firstType: Type;
 
-  @ManyToOne(() => Type, type => type.temtemSecondType, {nullable: true})
+  @ManyToOne(() => Type, (type) => type.temtemSecondType, { nullable: true })
   secondType: Type;
 
   @Column()

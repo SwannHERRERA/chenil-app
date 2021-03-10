@@ -1,66 +1,71 @@
-import {Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { MoveEffect } from "./MoveEffect";
 import { MoveSynergie } from "./MoveSynergie";
-import { TemtemHaveMove } from "./TemtemHaveMove";
 import { Type } from "./Type";
 
 export enum MoveClass {
-    Special,
-    Normal
+  Special,
+  Normal,
 }
 
 export enum MoveTarget {
-    Single,
-    All,
-    Team,
-    Other,
-    Self
+  Single,
+  All,
+  Team,
+  Other,
+  Self,
 }
 
 @Entity()
 export class Move {
-    @PrimaryGeneratedColumn("uuid")
-    moveId: string;
+  @PrimaryGeneratedColumn("uuid")
+  moveId: string;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column()
-    haveSynergie: boolean;
-    
-    @OneToMany(() => Type, (type) => type.moveWithSynergieType, {nullable: true})
-    synergieType: Type;
+  @Column()
+  haveSynergie: boolean;
 
-    @Column({type: "int"})
-    damage: number;
+  @OneToMany(() => Type, (type) => type.moveWithSynergieType, {
+    nullable: true,
+  })
+  synergieType: Type;
 
-    @Column({type: "int"})
-    stamina: number;
+  @Column({ type: "int" })
+  damage: number;
 
-    @Column({type: "int"})
-    hold: number;
-    
-    @Column({type: "double"})
-    priority: number;
+  @Column({ type: "int" })
+  stamina: number;
 
-    @OneToMany(() => Type, (type) => type.moves)
-    type: Type;
+  @Column({ type: "int" })
+  hold: number;
 
-    @Column()
-    class: MoveClass;
+  @Column({ type: "real" })
+  priority: number;
 
-    @Column()
-    Target: MoveTarget;
+  @OneToMany(() => Type, (type) => type.moves)
+  type: Type;
 
-    @OneToOne(() => MoveSynergie, moveSynergie => moveSynergie.moveSynergie)
-    synergie: Move;
+  @Column()
+  class: MoveClass;
 
-    @OneToOne(() => MoveSynergie, moveSynergie => moveSynergie.move)
-    parentMove: Move;
+  @Column()
+  Target: MoveTarget;
 
-    @ManyToOne(() => MoveEffect, moveEffect => moveEffect.move)
-    effects: MoveEffect[];
+  @OneToOne(() => MoveSynergie, (moveSynergie) => moveSynergie.moveSynergie)
+  synergie: Move;
 
-    @ManyToOne(() => TemtemHaveMove, temtemHaveMove => temtemHaveMove.move)
-    temtems: TemtemHaveMove[];
+  @OneToOne(() => MoveSynergie, (moveSynergie) => moveSynergie.move)
+  parentMove: Move;
+
+  @ManyToOne(() => MoveEffect, (moveEffect) => moveEffect.move)
+  effects: MoveEffect[];
 }

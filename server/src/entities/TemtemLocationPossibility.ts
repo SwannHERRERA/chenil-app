@@ -1,16 +1,18 @@
-import { format } from "path";
-import {Column, Entity, ManyToOne} from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Temtem } from "./Temtem";
 import { Location } from "./Location";
 
 @Entity()
 export class TemtemLocationPossibility {
-    @ManyToOne(() => Location, (location) => location.temtems)
-    location: Location;
+  @PrimaryGeneratedColumn("uuid")
+  temtemLocationPossibilityId: string;
 
-    @ManyToOne(() => Temtem, (temtem) => temtem.locationPossibility)
-    temtem: Temtem;
+  @ManyToOne(() => Location, (location) => location.temtems)
+  location: Location;
 
-    @Column()
-    rate: number
+  @ManyToOne(() => Temtem, (temtem) => temtem.locationPossibility)
+  temtem: Temtem;
+
+  @Column()
+  rate: number;
 }

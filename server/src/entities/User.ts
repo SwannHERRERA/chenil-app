@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import { IsEmail } from "class-validator";
 import { UserType } from "./UserType";
+import { Insult } from "./Insult";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
@@ -33,4 +34,7 @@ export class User {
 
   @ManyToMany(() => UserType, (userType) => userType.users)
   types: UserType[];
+
+  @ManyToMany(() => Insult, (insult) => insult.users)
+  insults: UserType[];
 }
