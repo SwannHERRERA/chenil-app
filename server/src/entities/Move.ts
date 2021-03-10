@@ -3,7 +3,6 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { MoveEffect } from "./MoveEffect";
@@ -60,11 +59,11 @@ export class Move {
   @Column()
   Target: MoveTarget;
 
-  @OneToOne(() => MoveSynergie, (moveSynergie) => moveSynergie.moveSynergie)
-  synergie: Move;
+  @ManyToOne(() => MoveSynergie, (moveSynergie) => moveSynergie.moveSynergie)
+  synergie: Move[];
 
-  @OneToOne(() => MoveSynergie, (moveSynergie) => moveSynergie.move)
-  parentMove: Move;
+  @ManyToOne(() => MoveSynergie, (moveSynergie) => moveSynergie.move)
+  parentMove: Move[];
 
   @ManyToOne(() => MoveEffect, (moveEffect) => moveEffect.move)
   effects: MoveEffect[];
