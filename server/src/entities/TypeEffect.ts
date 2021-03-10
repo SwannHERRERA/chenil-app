@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Type } from "./Type";
 
 @Entity()
@@ -6,10 +6,10 @@ export class TypeEffect {
   @PrimaryGeneratedColumn("uuid")
   TypeEffectId: string;
 
-  @OneToOne(() => Type)
+  @OneToMany(() => Type, (type) => type.fromType)
   fromType: Type;
 
-  @OneToOne(() => Type) 
+  @OneToMany(() => Type, (type) => type.toTypes)
   toType: Type;
 
   @Column()

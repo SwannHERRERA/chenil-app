@@ -12,6 +12,6 @@ export class Insult {
   @Column()
   trigger: string;
 
-  @ManyToMany(() => User, (user) => user.insults)
+  @ManyToMany(() => User, (user) => user.insults, { nullable: true })
   users: User[];
 }

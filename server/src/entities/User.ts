@@ -1,7 +1,14 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { IsEmail } from "class-validator";
 import { UserType } from "./UserType";
 import { Insult } from "./Insult";
+import { Alias } from "./Alias";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
@@ -32,9 +39,12 @@ export class User {
   @Column({ type: "int" })
   pansuns: number;
 
+  @ManyToOne(() => Alias, (alias) => alias.user)
+  alias: Alias[];
+
   @ManyToMany(() => UserType, (userType) => userType.users)
   types: UserType[];
 
-  @ManyToMany(() => Insult, (insult) => insult.users)
+  @ManyToMany(() => Insult, (insult) => insult.users, { nullable: true })
   insults: UserType[];
 }

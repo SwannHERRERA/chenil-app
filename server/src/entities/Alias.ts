@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { User } from "./User";
 @Entity()
 export class Alias {
@@ -8,6 +8,6 @@ export class Alias {
   @Column()
   name: string;
 
-  @JoinColumn()
+  @OneToMany(() => User, (user) => user.alias)
   user: User;
 }
