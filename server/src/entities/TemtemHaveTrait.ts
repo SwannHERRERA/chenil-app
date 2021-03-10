@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, OneToMany } from "typeorm";
+import { Entity, ManyToOne } from "typeorm";
 import { Temtem } from "./Temtem";
 import { Trait } from "./Trait";
 

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Move } from "./Move";
 
 @Entity()
 export class Type {
@@ -7,4 +8,10 @@ export class Type {
 
   @Column()
   name: string;
+
+  @ManyToOne(() => Move, (move) => move.synergieType, {nullable: true})
+  moveWithSynergieType: Move[];
+
+  @ManyToOne(() => Move, (move) => move.type)
+  moves: Move[];
 }

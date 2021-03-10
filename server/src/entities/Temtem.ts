@@ -9,6 +9,7 @@ import {
 import { EvolutionLine } from "./EvolutionLine";
 import { TemtemHaveTrait } from "./TemtemHaveTrait";
 import { TemtemImage } from "./TemtemImage";
+import { TemtemLocationPossibility } from "./TemtemLocationPossibility";
 
 @Entity()
 export class Temtem {
@@ -45,6 +46,8 @@ export class Temtem {
   @OneToMany(() => TemtemHaveTrait, (TemtemHaveTrait) => TemtemHaveTrait.trait)
   traits: TemtemHaveTrait[];
 
+  @OneToMany(() => TemtemLocationPossibility, (temtemLocationPossibility) => temtemLocationPossibility.temtem)
+  locationPossibility: TemtemLocationPossibility[];
   /**
    * firstType,
    * secondType
