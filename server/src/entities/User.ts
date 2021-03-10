@@ -1,14 +1,8 @@
-import {
-  Column,
-  Entity,
-  ManyToMany,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { IsEmail } from "class-validator";
-import { UserType } from "./UserType";
-import { Insult } from "./Insult";
 import { Alias } from "./Alias";
+import { UserHaveType } from "./UserHaveType";
+import { InsultIsSpecialFor } from "./InsultIsSpecialFor";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
@@ -42,9 +36,12 @@ export class User {
   @ManyToOne(() => Alias, (alias) => alias.user)
   alias: Alias[];
 
-  @ManyToMany(() => UserType, (userType) => userType.users)
-  types: UserType[];
+  @ManyToOne(() => UserHaveType, (userHaveType) => userHaveType.user)
+  types: UserHaveType[];
 
-  @ManyToMany(() => Insult, (insult) => insult.users, { nullable: true })
-  insults: UserType[];
+  @ManyToOne(
+    () => InsultIsSpecialFor,
+    (insultIsSpecialFor) => insultIsSpecialFor.user
+  )
+  insults: InsultIsSpecialFor[];
 }

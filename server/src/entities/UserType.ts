@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from "typeorm";
-import { User } from "./User";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { UserHaveType } from "./UserHaveType";
 @Entity()
 export class UserType {
   @PrimaryGeneratedColumn("uuid")
@@ -8,6 +8,6 @@ export class UserType {
   @Column()
   name: string;
 
-  @ManyToMany(() => User, (user) => user.types)
-  users: User[];
+  @ManyToOne(() => UserHaveType, (userHaveType) => userHaveType.type)
+  users: UserHaveType[];
 }
