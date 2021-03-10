@@ -1,15 +1,16 @@
 import {
   Column,
   Entity,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { EvolutionLine } from "./EvolutionLine";
+import { TemtemHaveMove } from "./TemtemHaveMove";
 import { TemtemHaveTrait } from "./TemtemHaveTrait";
 import { TemtemImage } from "./TemtemImage";
 import { TemtemLocationPossibility } from "./TemtemLocationPossibility";
+import { Type } from "./Type";
 
 @Entity()
 export class Temtem {
@@ -43,15 +44,20 @@ export class Temtem {
   @ManyToOne(() => EvolutionLine, (evolutionLine) => evolutionLine.name)
   evolutionLine: EvolutionLine;
 
-  @OneToMany(() => TemtemHaveTrait, (TemtemHaveTrait) => TemtemHaveTrait.trait)
+  @OneToMany(() => TemtemHaveTrait, (TemtemHaveTrait) => TemtemHaveTrait.temtem)
   traits: TemtemHaveTrait[];
 
   @OneToMany(() => TemtemLocationPossibility, (temtemLocationPossibility) => temtemLocationPossibility.temtem)
   locationPossibility: TemtemLocationPossibility[];
-  /**
-   * firstType,
-   * secondType
-   */
+
+  @OneToMany(() => TemtemHaveMove, temtemHaveMove => temtemHaveMove.temtem)
+  moves: TemtemHaveMove[];
+
+  @ManyToOne(() => Type, type => type.temtemFirstType)
+  firstType: Type;
+
+  @ManyToOne(() => Type, type => type.temtemSecondType, {nullable: true})
+  secondType: Type;
 
   @Column()
   hp: number;

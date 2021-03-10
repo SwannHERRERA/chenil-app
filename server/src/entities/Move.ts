@@ -1,4 +1,7 @@
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import { MoveEffect } from "./MoveEffect";
+import { MoveSynergie } from "./MoveSynergie";
+import { TemtemHaveMove } from "./TemtemHaveMove";
 import { Type } from "./Type";
 
 export enum MoveClass {
@@ -48,4 +51,16 @@ export class Move {
 
     @Column()
     Target: MoveTarget;
+
+    @OneToOne(() => MoveSynergie, moveSynergie => moveSynergie.moveSynergie)
+    synergie: Move;
+
+    @OneToOne(() => MoveSynergie, moveSynergie => moveSynergie.move)
+    parentMove: Move;
+
+    @ManyToOne(() => MoveEffect, moveEffect => moveEffect.move)
+    effects: MoveEffect[];
+
+    @ManyToOne(() => TemtemHaveMove, temtemHaveMove => temtemHaveMove.move)
+    temtems: TemtemHaveMove[];
 }

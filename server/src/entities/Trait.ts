@@ -18,6 +18,6 @@ export class Trait {
   @Column()
   description: string;
 
-  @OneToMany(() => TemtemHaveTrait, (TemtemHaveTrait) => TemtemHaveTrait.temtem)
+  @OneToMany(() => TemtemHaveTrait, (TemtemHaveTrait) => TemtemHaveTrait.trait)
   temtems: TemtemHaveTrait[];
 }
