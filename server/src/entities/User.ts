@@ -9,6 +9,7 @@ import { IsEmail } from "class-validator";
 import { Alias } from "./Alias";
 import { UserHaveType } from "./UserHaveType";
 import { InsultIsSpecialFor } from "./InsultIsSpecialFor";
+import { UserTemtem } from "./UserTemtem";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
@@ -50,4 +51,7 @@ export class User {
     (insultIsSpecialFor) => insultIsSpecialFor.user
   )
   insults: InsultIsSpecialFor[];
+
+  @OneToMany(() => UserTemtem, (userTemtem) => userTemtem.user)
+  temtems: UserTemtem[];
 }

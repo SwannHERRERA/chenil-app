@@ -8,6 +8,7 @@ import {
 import { Move } from "./Move";
 import { Temtem } from "./Temtem";
 import { TypeEffect } from "./TypeEffect";
+import { UserTemtem } from "./UserTemtem";
 
 @Entity()
 export class Type {
@@ -34,4 +35,7 @@ export class Type {
 
   @OneToMany(() => TypeEffect, (typeEffect) => typeEffect.toType)
   toTypes: TypeEffect[];
+
+  @OneToMany(() => UserTemtem, (userTemtem) => userTemtem.additionalType)
+  userTemtemAddtionalType: UserTemtem[];
 }

@@ -11,6 +11,7 @@ import { TemtemHaveTrait } from "./TemtemHaveTrait";
 import { TemtemImage } from "./TemtemImage";
 import { TemtemLocationPossibility } from "./TemtemLocationPossibility";
 import { Type } from "./Type";
+import { UserTemtem } from "./UserTemtem";
 
 @Entity()
 export class Temtem {
@@ -61,6 +62,9 @@ export class Temtem {
 
   @OneToMany(() => TemtemHaveMove, (temtemHaveMove) => temtemHaveMove.temtem)
   moves: TemtemHaveMove[];
+
+  @OneToMany(() => UserTemtem, (userTemtem) => userTemtem.temtem)
+  temtemUser: UserTemtem[];
 
   @Column()
   hp: number;

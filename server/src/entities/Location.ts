@@ -1,5 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { TemtemLocationPossibility } from "./TemtemLocationPossibility";
+import { UserTemtem } from "./UserTemtem";
 
 @Entity()
 export class Location {
@@ -20,4 +21,7 @@ export class Location {
     (temtemLocationPossibility) => temtemLocationPossibility.location
   )
   temtems: TemtemLocationPossibility[];
+
+  @OneToMany(() => UserTemtem, (userTemtem) => userTemtem.findIn)
+  userTemtemFindHere: UserTemtem[];
 }
