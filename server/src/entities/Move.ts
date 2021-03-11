@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { MoveEffect } from "./MoveEffect";
 import { MoveSynergie } from "./MoveSynergie";
 import { Type } from "./Type";
@@ -59,10 +53,10 @@ export class Move {
   @Column()
   Target: MoveTarget;
 
-  @ManyToOne(() => MoveSynergie, (moveSynergie) => moveSynergie.moveSynergie)
+  @OneToMany(() => MoveSynergie, (moveSynergie) => moveSynergie.moveSynergie)
   synergie: Move[];
 
-  @ManyToOne(() => MoveSynergie, (moveSynergie) => moveSynergie.move)
+  @OneToMany(() => MoveSynergie, (moveSynergie) => moveSynergie.move)
   parentMove: Move[];
 
   @OneToMany(() => MoveEffect, (moveEffect) => moveEffect.move)

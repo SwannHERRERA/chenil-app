@@ -6,9 +6,9 @@ export class MoveSynergie {
   @PrimaryGeneratedColumn("uuid")
   moveSynergieId: string;
 
-  @OneToMany(() => Move, (move) => move.parentMove)
+  @ManyToOne(() => Move, (move) => move.parentMove)
   move: Move;
 
-  @OneToMany(() => Move, (move) => move.synergie)
+  @ManyToOne(() => Move, (move) => move.synergie)
   moveSynergie: Move;
 }
