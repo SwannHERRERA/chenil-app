@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { EvolutionLine } from "./EvolutionLine";
+import { TemtemHaveMove } from "./TemtemHaveMove";
 import { TemtemHaveTrait } from "./TemtemHaveTrait";
 import { TemtemImage } from "./TemtemImage";
 import { TemtemLocationPossibility } from "./TemtemLocationPossibility";
@@ -57,6 +58,9 @@ export class Temtem {
 
   @ManyToOne(() => Type, (type) => type.temtemSecondType, { nullable: true })
   secondType: Type;
+
+  @OneToMany(() => TemtemHaveMove, (temtemHaveMove) => temtemHaveMove.temtem)
+  moves: TemtemHaveMove[];
 
   @Column()
   hp: number;
