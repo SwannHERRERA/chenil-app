@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { IsEmail } from "class-validator";
 import { Alias } from "./Alias";
 import { UserHaveType } from "./UserHaveType";
@@ -36,10 +42,10 @@ export class User {
   @ManyToOne(() => Alias, (alias) => alias.user)
   alias: Alias[];
 
-  @ManyToOne(() => UserHaveType, (userHaveType) => userHaveType.user)
+  @OneToMany(() => UserHaveType, (userHaveType) => userHaveType.user)
   types: UserHaveType[];
 
-  @ManyToOne(
+  @OneToMany(
     () => InsultIsSpecialFor,
     (insultIsSpecialFor) => insultIsSpecialFor.user
   )

@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Move } from "./Move";
 import { Temtem } from "./Temtem";
 import { TypeEffect } from "./TypeEffect";
@@ -23,9 +29,9 @@ export class Type {
   @ManyToOne(() => Temtem, (temtem) => temtem.secondType, { nullable: true })
   temtemSecondType: Temtem[];
 
-  @ManyToOne(() => TypeEffect, (typeEffect) => typeEffect.fromType)
-  fromType: Type[];
+  @OneToMany(() => TypeEffect, (typeEffect) => typeEffect.fromType)
+  fromType: TypeEffect[];
 
-  @ManyToOne(() => TypeEffect, (typeEffect) => typeEffect.toType)
-  toTypes: Type[];
+  @OneToMany(() => TypeEffect, (typeEffect) => typeEffect.toType)
+  toTypes: TypeEffect[];
 }

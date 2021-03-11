@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { UserHaveType } from "./UserHaveType";
 @Entity()
 export class UserType {
@@ -8,6 +8,6 @@ export class UserType {
   @Column()
   name: string;
 
-  @ManyToOne(() => UserHaveType, (userHaveType) => userHaveType.type)
+  @OneToMany(() => UserHaveType, (userHaveType) => userHaveType.type)
   users: UserHaveType[];
 }

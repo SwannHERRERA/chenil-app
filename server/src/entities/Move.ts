@@ -65,6 +65,6 @@ export class Move {
   @ManyToOne(() => MoveSynergie, (moveSynergie) => moveSynergie.move)
   parentMove: Move[];
 
-  @ManyToOne(() => MoveEffect, (moveEffect) => moveEffect.move)
+  @OneToMany(() => MoveEffect, (moveEffect) => moveEffect.move)
   effects: MoveEffect[];
 }

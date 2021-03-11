@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { InsultIsSpecialFor } from "./InsultIsSpecialFor";
 
 @Entity()
@@ -12,7 +12,7 @@ export class Insult {
   @Column()
   trigger: string;
 
-  @ManyToOne(
+  @OneToMany(
     () => InsultIsSpecialFor,
     (insultIsSpecialFor) => insultIsSpecialFor.insult
   )

@@ -1,4 +1,4 @@
-import { Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./User";
 import { UserType } from "./UserType";
 
@@ -7,9 +7,9 @@ export class UserHaveType {
   @PrimaryGeneratedColumn("uuid")
   userHaveTypeId: string;
 
-  @OneToMany(() => User, (user) => user.types)
+  @ManyToOne(() => User, (user) => user.types)
   user: User;
 
-  @OneToMany(() => UserType, (userType) => userType.users)
+  @ManyToOne(() => UserType, (userType) => userType.users)
   type: UserType;
 }
