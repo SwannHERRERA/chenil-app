@@ -1,8 +1,16 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Temtem } from "./Temtem";
 import { Type } from "./Type";
 import { User } from "./User";
 import { Location } from "./Location";
+import { UserTemtemHaveMove } from "./UserTemtemHaveMove";
+import { Reproduction } from "./Reproduction";
 
 export enum CardType {
   temcard = "temcard",
@@ -56,6 +64,22 @@ export class UserTemtem {
 
   @ManyToOne(() => Type, (type) => type.userTemtemAddtionalType)
   additionalType: Type;
+
+  @OneToMany(
+    () => UserTemtemHaveMove,
+    (userTemtemHaveMove) => userTemtemHaveMove.userTemtem
+  )
+  moves: UserTemtemHaveMove[];
+
+  @OneToMany(() => Reproduction, (reproduction) => reproduction.father, {
+    nullable: true,
+  })
+  reproductionFather: Reproduction[];
+
+  @OneToMany(() => Reproduction, (reproduction) => reproduction.mother, {
+    nullable: true,
+  })
+  reproductionMother: Reproduction[];
 
   @Column()
   svHp: number;

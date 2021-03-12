@@ -24,7 +24,7 @@ export class Temtem {
   @Column()
   inGameId: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: "date" })
   publishDate: Date;
 
   @Column({ nullable: true })

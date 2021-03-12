@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { UserClan } from "./UserClan";
 
 @Entity()
 export class Clan {
@@ -13,4 +14,7 @@ export class Clan {
 
   @Column({ type: "int" })
   pansunsFund: number;
+
+  @OneToMany(() => UserClan, (userClan) => userClan.clan)
+  users: UserClan[];
 }

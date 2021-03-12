@@ -3,6 +3,7 @@ import { MoveEffect } from "./MoveEffect";
 import { MoveSynergie } from "./MoveSynergie";
 import { TemtemHaveMove } from "./TemtemHaveMove";
 import { Type } from "./Type";
+import { UserTemtemHaveMove } from "./UserTemtemHaveMove";
 
 export enum MoveClass {
   Special,
@@ -65,4 +66,10 @@ export class Move {
 
   @OneToMany(() => TemtemHaveMove, (temtemHaveMove) => temtemHaveMove.move)
   temtems: TemtemHaveMove[];
+
+  @OneToMany(
+    () => UserTemtemHaveMove,
+    (userTemtemHaveMove) => userTemtemHaveMove.move
+  )
+  userTemtem: UserTemtemHaveMove[];
 }
