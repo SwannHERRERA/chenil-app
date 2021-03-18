@@ -7,8 +7,8 @@ import cors from "@koa/cors";
 import cookie from "koa-cookie";
 import { buildSchemaSync } from "type-graphql";
 import { ApolloServer } from "apollo-server-koa";
-import * as userRoute from "./routes/User";
 import { UserResolver } from "./resolvers/User";
+import * as userRoute from "./routes/User";
 import * as middlewares from "./middleware";
 export class AppServer {
   private app: Koa;
@@ -81,14 +81,14 @@ export function createServer(): AppServer {
 
   // Register routes
   userRoute.init(app);
-  const schema = buildSchemaSync({
-    resolvers: [UserResolver],
-  });
-  const apolloServer = new ApolloServer({
-    schema,
-    context: ({ ctx }) => ({ ctx }),
-  });
+  // const schema = buildSchemaSync({
+  //   resolvers: [UserResolver],
+  // });
+  // const apolloServer = new ApolloServer({
+  //   schema,
+  //   context: ({ ctx }) => ({ ctx }),
+  // });
 
-  apolloServer.applyMiddleware({ app, cors: false });
+  // apolloServer.applyMiddleware({ app, cors: false });
   return appSrv;
 }

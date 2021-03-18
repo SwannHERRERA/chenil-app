@@ -4,7 +4,7 @@ import { home } from "../controller/User";
 
 export function init(server: Koa) {
   const router = new Router();
-  router.get("/api/v1/home", home);
+  router.get("/user", home);
 
   server.use(router.routes());
 }
