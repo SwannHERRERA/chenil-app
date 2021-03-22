@@ -9,9 +9,10 @@ import { buildSchemaSync } from "type-graphql";
 import { ApolloServer } from "apollo-server-koa";
 import { UserResolver } from "./resolvers/User";
 import * as userRoute from "./routes/User";
-import * as middlewares from "./middleware";
+import { logRequest, errorHandler, responseTime } from "./middleware";
 import { Context } from "vm";
 import Router from "koa-router";
+
 export class AppServer {
   private app: Koa;
   private server: Server;
@@ -82,9 +83,9 @@ export function createServer(): AppServer {
   );
   app.use(cors());
   app.use(cookie());
-  app.use(middlewares.responseTime);
-  app.use(middlewares.logRequest(logger));
-  app.use(middlewares.errorHandler(logger));
+  app.use(responseTime);
+  app.use(logRequest(logger));
+  app.use(errorHandler(logger));
   app.use(router.routes());
 
   // Register routes
