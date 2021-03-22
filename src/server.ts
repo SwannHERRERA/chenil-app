@@ -10,6 +10,8 @@ import { ApolloServer } from "apollo-server-koa";
 import { UserResolver } from "./resolvers/User";
 import * as userRoute from "./routes/User";
 import * as middlewares from "./middleware";
+import { Context } from "vm";
+import Router from "koa-router";
 export class AppServer {
   private app: Koa;
   private server: Server;
@@ -27,7 +29,7 @@ export class AppServer {
   }
 
   public closeServer(): Promise<void> {
-    if (typeof this.server === undefined) {
+    if (typeof this.server === "undefined") {
       throw new Error("Server is not open");
     }
     const checkPendingRequests = (
@@ -67,6 +69,11 @@ export function createServer(): AppServer {
   const appSrv = new AppServer(app);
   const logger = pino();
 
+  const router = new Router();
+  router.get("/user", (ctx: Context) => {
+    ctx.body = "Body test";
+  });
+
   app.use(
     helmet({
       contentSecurityPolicy:
@@ -78,9 +85,10 @@ export function createServer(): AppServer {
   app.use(middlewares.responseTime);
   app.use(middlewares.logRequest(logger));
   app.use(middlewares.errorHandler(logger));
+  app.use(router.routes());
 
   // Register routes
-  userRoute.init(app);
+  // userRoute.init(app);
   // const schema = buildSchemaSync({
   //   resolvers: [UserResolver],
   // });
