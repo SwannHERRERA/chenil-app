@@ -1,13 +1,13 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class initDB1615507398747 implements MigrationInterface {
-    name = 'initDB1615507398747'
+export class initDB1616538638101 implements MigrationInterface {
+    name = 'initDB1616538638101'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "user_type" ("typeId" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, CONSTRAINT "PK_63c74bc82b018bf892f1d191525" PRIMARY KEY ("typeId"))`);
         await queryRunner.query(`CREATE TABLE "user_have_type" ("userHaveTypeId" uuid NOT NULL DEFAULT uuid_generate_v4(), "userUserId" uuid, "typeTypeId" uuid, CONSTRAINT "PK_8d78376e79052d974ab97c88fad" PRIMARY KEY ("userHaveTypeId"))`);
-        await queryRunner.query(`CREATE TABLE "insult" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "text" character varying NOT NULL, "trigger" character varying NOT NULL, CONSTRAINT "PK_60e06161c70e8c84a6c91c99c7e" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "insult_is_special_for" ("insultIsSpecialForId" uuid NOT NULL DEFAULT uuid_generate_v4(), "userUserId" uuid, "insultId" uuid, CONSTRAINT "PK_71a79192208d05cb6c0c5b94059" PRIMARY KEY ("insultIsSpecialForId"))`);
+        await queryRunner.query(`CREATE TABLE "insult" ("insultId" uuid NOT NULL DEFAULT uuid_generate_v4(), "text" character varying NOT NULL, "trigger" character varying NOT NULL, CONSTRAINT "PK_106239133449cf36f7261087eae" PRIMARY KEY ("insultId"))`);
+        await queryRunner.query(`CREATE TABLE "insult_is_special_for" ("insultIsSpecialForId" uuid NOT NULL DEFAULT uuid_generate_v4(), "userUserId" uuid, "insultInsultId" uuid, CONSTRAINT "PK_71a79192208d05cb6c0c5b94059" PRIMARY KEY ("insultIsSpecialForId"))`);
         await queryRunner.query(`CREATE TABLE "evolution_line" ("evolutionLineId" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, CONSTRAINT "PK_01b23737ea962e3ef009729b7e3" PRIMARY KEY ("evolutionLineId"))`);
         await queryRunner.query(`CREATE TABLE "effect" ("effectId" SERIAL NOT NULL, "name" character varying NOT NULL, "description" character varying NOT NULL, CONSTRAINT "PK_a8f2f6b404d808d8bf4b70e4cbe" PRIMARY KEY ("effectId"))`);
         await queryRunner.query(`CREATE TABLE "move_effect" ("MoveEffectId" uuid NOT NULL DEFAULT uuid_generate_v4(), "intencity" integer NOT NULL, "duration" integer NOT NULL, "moveMoveId" uuid, "effectEffectId" integer, CONSTRAINT "PK_00fb87f7e1c4d798a0e7b599797" PRIMARY KEY ("MoveEffectId"))`);
@@ -38,7 +38,7 @@ export class initDB1615507398747 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "user_have_type" ADD CONSTRAINT "FK_a0ade8eff357e06a070ba48bb6d" FOREIGN KEY ("userUserId") REFERENCES "user"("UserId") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "user_have_type" ADD CONSTRAINT "FK_4b861a9ef39e4606797c41ac830" FOREIGN KEY ("typeTypeId") REFERENCES "user_type"("typeId") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "insult_is_special_for" ADD CONSTRAINT "FK_cfaf3f6c3114d4c4846f6feae37" FOREIGN KEY ("userUserId") REFERENCES "user"("UserId") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "insult_is_special_for" ADD CONSTRAINT "FK_d1848632ce8687de5f3395a8f79" FOREIGN KEY ("insultId") REFERENCES "insult"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "insult_is_special_for" ADD CONSTRAINT "FK_08c4fef01c08d8ab5db08e784f9" FOREIGN KEY ("insultInsultId") REFERENCES "insult"("insultId") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "move_effect" ADD CONSTRAINT "FK_4e5ed0298956254b4840d64fcfa" FOREIGN KEY ("moveMoveId") REFERENCES "move"("moveId") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "move_effect" ADD CONSTRAINT "FK_1c3d4f4ae78711161a998ef11da" FOREIGN KEY ("effectEffectId") REFERENCES "effect"("effectId") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "move_synergie" ADD CONSTRAINT "FK_b1ac8fe451256166fb2863059b1" FOREIGN KEY ("moveMoveId") REFERENCES "move"("moveId") ON DELETE NO ACTION ON UPDATE NO ACTION`);
@@ -130,7 +130,7 @@ export class initDB1615507398747 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "move_synergie" DROP CONSTRAINT "FK_b1ac8fe451256166fb2863059b1"`);
         await queryRunner.query(`ALTER TABLE "move_effect" DROP CONSTRAINT "FK_1c3d4f4ae78711161a998ef11da"`);
         await queryRunner.query(`ALTER TABLE "move_effect" DROP CONSTRAINT "FK_4e5ed0298956254b4840d64fcfa"`);
-        await queryRunner.query(`ALTER TABLE "insult_is_special_for" DROP CONSTRAINT "FK_d1848632ce8687de5f3395a8f79"`);
+        await queryRunner.query(`ALTER TABLE "insult_is_special_for" DROP CONSTRAINT "FK_08c4fef01c08d8ab5db08e784f9"`);
         await queryRunner.query(`ALTER TABLE "insult_is_special_for" DROP CONSTRAINT "FK_cfaf3f6c3114d4c4846f6feae37"`);
         await queryRunner.query(`ALTER TABLE "user_have_type" DROP CONSTRAINT "FK_4b861a9ef39e4606797c41ac830"`);
         await queryRunner.query(`ALTER TABLE "user_have_type" DROP CONSTRAINT "FK_a0ade8eff357e06a070ba48bb6d"`);

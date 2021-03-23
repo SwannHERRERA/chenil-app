@@ -4,7 +4,7 @@ import { InsultIsSpecialFor } from "./InsultIsSpecialFor";
 @Entity()
 export class Insult {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  insultId: string;
 
   @Column()
   text: string;
