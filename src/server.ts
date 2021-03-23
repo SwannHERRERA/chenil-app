@@ -10,8 +10,6 @@ import { ApolloServer } from "apollo-server-koa";
 import { UserResolver } from "./resolvers/User";
 import * as userRoute from "./routes/User";
 import { logRequest, errorHandler, responseTime } from "./middleware";
-import { Context } from "vm";
-import Router from "koa-router";
 
 export class AppServer {
   private app: Koa;
@@ -70,11 +68,6 @@ export function createServer(): AppServer {
   const appSrv = new AppServer(app);
   const logger = pino();
 
-  const router = new Router();
-  router.get("/user", (ctx: Context) => {
-    ctx.body = "Body test";
-  });
-
   app.use(
     helmet({
       contentSecurityPolicy:
@@ -86,10 +79,9 @@ export function createServer(): AppServer {
   app.use(responseTime);
   app.use(logRequest(logger));
   app.use(errorHandler(logger));
-  app.use(router.routes());
 
   // Register routes
-  // userRoute.init(app);
+  userRoute.init(app);
   // const schema = buildSchemaSync({
   //   resolvers: [UserResolver],
   // });
