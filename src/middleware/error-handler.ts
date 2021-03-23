@@ -7,7 +7,7 @@ export function errorHandler(logger: Logger): IMiddleware {
   return async (ctx: Context, next: () => Promise<any>) => {
     try {
       await next();
-    } catch (err: any) {
+    } catch (err) {
       logger.error("Error Handler:", err);
 
       if (err instanceof AppError) {
