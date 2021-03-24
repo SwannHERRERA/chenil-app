@@ -2,9 +2,6 @@ import "dotenv-safe/config";
 import path from "path";
 import pino from "pino";
 import { createConnection } from "typeorm";
-import { User } from "./entities/User";
-import { Alias } from "./entities/Alias";
-import { Insult } from "./entities/Insult";
 import { createServer } from "./server";
 
 const main = async () => {
@@ -16,7 +13,6 @@ const main = async () => {
       logging: true,
       // synchronize: true,
       migrations: [path.join(__dirname, "./migrations/*")],
-      entities: [Insult, User, Alias],
     });
     const port = Number(process.env.PORT) || 8080;
     const app = await createServer();
