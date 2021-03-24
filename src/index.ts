@@ -13,6 +13,7 @@ const main = async () => {
       logging: true,
       // synchronize: true,
       migrations: [path.join(__dirname, "./migrations/*")],
+      entities: [path.join(__dirname, "./entities/*")],
     });
     const port = Number(process.env.PORT) || 8080;
     const app = await createServer();
