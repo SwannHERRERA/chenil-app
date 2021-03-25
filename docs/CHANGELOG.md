@@ -13,3 +13,7 @@ This projet respect [Semantic Versioning](https://semver.org/) and the [recomman
 ## [0.1.0] - 2021-03-12
 ### Added
 - All entites with create for TypeORM
+
+## [0.1.0] - 2021-03-26
+### Added
+- All the backend stuff for auth need to be tested
