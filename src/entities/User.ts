@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   Entity,
   ManyToOne,
@@ -14,7 +15,7 @@ import { UserClan } from "./UserClan";
 import { UserItem } from "./UserItem";
 import { Payment } from "./Payment";
 @Entity()
-export class User {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   UserId: string;
 

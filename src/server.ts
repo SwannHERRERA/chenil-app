@@ -5,9 +5,9 @@ import pino from "pino";
 import helmet from "koa-helmet";
 import cors from "@koa/cors";
 import cookie from "koa-cookie";
-// import { buildSchemaSync } from "type-graphql";
-// import { ApolloServer } from "apollo-server-koa";
-// import { UserResolver } from "./resolvers/User";
+import { buildSchemaSync } from "type-graphql";
+import { ApolloServer } from "apollo-server-koa";
+import { UserResolver } from "./resolvers/User";
 import * as userRoute from "./routes/User";
 import { logRequest, errorHandler, responseTime } from "./middleware";
 
@@ -82,14 +82,15 @@ export function createServer(): AppServer {
 
   // Register routes
   userRoute.init(app);
-  // const schema = buildSchemaSync({
-  //   resolvers: [UserResolver],
-  // });
-  // const apolloServer = new ApolloServer({
-  //   schema,
-  //   context: ({ ctx }) => ({ ctx }),
-  // });
 
-  // apolloServer.applyMiddleware({ app, cors: false });
+  const schema = buildSchemaSync({
+    resolvers: [UserResolver],
+  });
+  const apolloServer = new ApolloServer({
+    schema,
+    context: ({ ctx }) => ({ ctx }),
+  });
+
+  apolloServer.applyMiddleware({ app, cors: false });
   return appSrv;
 }
