@@ -14,39 +14,51 @@ import { UserTemtem } from "./UserTemtem";
 import { UserClan } from "./UserClan";
 import { UserItem } from "./UserItem";
 import { Payment } from "./Payment";
+import { Field, Int, ObjectType } from "type-graphql";
+@ObjectType()
 @Entity()
 export class User extends BaseEntity {
+  @Field()
   @PrimaryGeneratedColumn("uuid")
   UserId: string;
 
+  @Field()
   @Column()
   firstName: string;
 
+  @Field()
   @Column()
   lastName: string;
 
+  @Field()
   @Column()
   inGamePseudo: String;
 
+  @Field()
   @Column()
   @IsEmail()
   email: string;
 
+  @Field()
   @Column()
   password: string;
 
+  @Field()
   @Column({ nullable: true })
   idDiscord: string;
 
+  @Field(() => Int)
   @Column({ type: "int" })
   tokenVersion: number;
 
+  @Field(() => Int)
   @Column({ type: "int" })
   pansuns: number;
 
   @ManyToOne(() => Alias, (alias) => alias.user)
   alias: Alias[];
 
+  @Field(() => [UserHaveType])
   @OneToMany(() => UserHaveType, (userHaveType) => userHaveType.user)
   types: UserHaveType[];
 
