@@ -1,9 +1,29 @@
 import { User } from "../entities/User";
-import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
-import { hash } from "argon2";
-import pino from "pino";
+import {
+  Arg,
+  Ctx,
+  Field,
+  Int,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+} from "type-graphql";
+import { hash, verify } from "argon2";
+import { MyLogger } from "../utils/logger";
 import { UserType } from "../entities/UserType";
 import { UserHaveType } from "../entities/UserHaveType";
+import { Context } from "koa";
+import { createRefreshToken, createAccessToken } from "../utils/token";
+import { sendRefreshToken } from "../controller/User";
+
+@ObjectType()
+class LoginResponse {
+  @Field()
+  accessToken: string;
+  @Field()
+  user: User;
+}
 
 @Resolver(User)
 export class UserResolver {
@@ -14,11 +34,11 @@ export class UserResolver {
 
   @Query(() => User)
   async getUserWithTypes(
-    @Arg("UserId") userId: string
+    @Arg("userId") userId: string
   ): Promise<User | undefined> {
     const user = await User.findOne({
       relations: ["types", "types.type"],
-      where: { UserId: userId },
+      where: { userId },
     });
     console.dir(user?.types);
 
@@ -58,7 +78,7 @@ export class UserResolver {
         type: customerType!,
       });
     } catch (err) {
-      const logger = pino();
+      const logger = MyLogger.getLogger();
       logger.error(err);
       return false;
     }
@@ -72,10 +92,31 @@ export class UserResolver {
       await UserHaveType.delete({ user });
       await user.remove();
     } catch (err) {
-      const logger = pino();
+      const logger = MyLogger.getLogger();
       logger.error(err);
       return false;
     }
     return true;
+  }
+
+  @Mutation(() => LoginResponse)
+  async login(
+    @Arg("email") email: string,
+    @Arg("password") password: string,
+    @Ctx() ctx: Context
+  ): Promise<LoginResponse> {
+    const user = await User.findOne({ where: email });
+    if (!user) {
+      throw new Error("login incorrect");
+    }
+    const isPasswordCorrect = await verify(user.password, password);
+    if (!isPasswordCorrect) {
+      throw new Error("login incorrect");
+    }
+    sendRefreshToken(ctx, createRefreshToken(user));
+    return {
+      accessToken: createAccessToken(user),
+      user,
+    };
   }
 }

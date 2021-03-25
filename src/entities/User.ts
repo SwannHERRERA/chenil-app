@@ -20,7 +20,7 @@ import { Field, Int, ObjectType } from "type-graphql";
 export class User extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn("uuid")
-  UserId: string;
+  userId: string;
 
   @Field()
   @Column()

@@ -1,14 +1,8 @@
 import { UserType } from "../entities/UserType";
 import { Mutation, Resolver, Query, Arg } from "type-graphql";
-import pino from "pino";
 import { UserHaveType } from "../entities/UserHaveType";
 import { User } from "../entities/User";
-
-// interface UserWithType {
-//   type: UserType;
-//   User: User;
-//   userHaveTypeId: string;
-// }
+import { MyLogger } from "../utils/logger";
 
 @Resolver(UserType)
 export class UserTypeResolver {
@@ -26,29 +20,25 @@ export class UserTypeResolver {
     });
   }
 
-  // Add UserType
   @Mutation(() => Boolean)
   async addUserType(@Arg("name") name: string): Promise<boolean> {
     try {
       await UserType.insert({ name });
       return true;
     } catch (err) {
-      const logger = pino();
+      const logger = MyLogger.getLogger();
       logger.error(err);
     }
     return false;
   }
 
-  // Set Type For User
   @Mutation(() => Boolean)
   async setUserTypeForUser(
     @Arg("userId") userId: string,
     @Arg("userTypeId") userTypeId: string
   ) {
     try {
-      console.log(userId);
-      console.log(userTypeId);
-      const user = await User.findOne({ where: { UserId: userId } });
+      const user = await User.findOne({ where: { userId } });
       const type = await UserType.findOne({ where: { typeId: userTypeId } });
       await UserHaveType.insert({
         user,
@@ -56,7 +46,7 @@ export class UserTypeResolver {
       });
       return true;
     } catch (err) {
-      const logger = pino();
+      const logger = MyLogger.getLogger();
       logger.error(err);
     }
     return false;

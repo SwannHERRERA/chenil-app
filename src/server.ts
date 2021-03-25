@@ -1,7 +1,6 @@
 import Koa from "koa";
 import { Server } from "http";
 import { ErrorCallback, retry } from "async";
-import pino from "pino";
 import helmet from "koa-helmet";
 import cors from "@koa/cors";
 import cookie from "koa-cookie";
@@ -11,6 +10,7 @@ import { UserResolver } from "./resolvers/User";
 import * as userRoute from "./routes/User";
 import { logRequest, errorHandler, responseTime } from "./middleware";
 import { UserTypeResolver } from "./resolvers/UserType";
+import { MyLogger } from "./utils/logger";
 
 export class AppServer {
   private app: Koa;
@@ -67,7 +67,7 @@ export class AppServer {
 export function createServer(): AppServer {
   const app = new Koa();
   const appSrv = new AppServer(app);
-  const logger = pino();
+  const logger = MyLogger.getLogger();
 
   app.use(
     helmet({

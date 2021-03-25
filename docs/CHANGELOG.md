@@ -9,3 +9,7 @@ This projet respect [Semantic Versioning](https://semver.org/) and the [recomman
 ### Added
 - inital project
 - first jet for the model idea
+
+## [0.1.0] - 2021-03-12
+### Added
+- All entites with create for TypeORM

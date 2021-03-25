@@ -1,7 +1,7 @@
 {
   "name": "lireddit-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "server for temtem APP and 'les évadés du chenil'",
   "main": "index.js",
   "scripts": {
     "migration": "npx ts-node node_modules/.bin/typeorm migration:run",
@@ -13,7 +13,9 @@
     "start2": "ts-node src/index.ts",
     "dev2": "nodemon --exec ts-node src/index.ts"
   },
-  "keywords": [],
+  "keywords": [
+    "temtem"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {

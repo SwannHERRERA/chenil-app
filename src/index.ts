@@ -1,17 +1,17 @@
 import "dotenv-safe/config";
 import path from "path";
-import pino from "pino";
+import { MyLogger } from "./utils/logger";
 import { createConnection } from "typeorm";
 import { createServer } from "./server";
 
 const main = async () => {
-  const logger = pino();
+  const logger = MyLogger.getLogger();
   try {
     await createConnection({
       type: "postgres",
       url: process.env.DATABASE_URL,
       logging: true,
-      // synchronize: true,
+      synchronize: true,
       migrations: [path.join(__dirname, "./migrations/*")],
       entities: [path.join(__dirname, "./entities/*")],
     });
