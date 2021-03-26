@@ -28,7 +28,7 @@ class LoginResponse {
 @Resolver(User)
 export class UserResolver {
   @Query(() => [User])
-  async listAllUser() {
+  async listAllUser(): Promise<User[]> {
     return await User.find();
   }
 
@@ -105,7 +105,8 @@ export class UserResolver {
     @Arg("password") password: string,
     @Ctx() ctx: Context
   ): Promise<LoginResponse> {
-    const user = await User.findOne({ where: email });
+    const user = await User.findOne({ where: { email } });
+
     if (!user) {
       throw new Error("login incorrect");
     }
