@@ -1,5 +1,5 @@
 import { UserType } from "../entities/UserType";
-import { Mutation, Resolver, Query, Arg } from "type-graphql";
+import { Mutation, Resolver, Query, Arg, Authorized } from "type-graphql";
 import { UserHaveType } from "../entities/UserHaveType";
 import { User } from "../entities/User";
 import { MyLogger } from "../utils/logger";
@@ -7,6 +7,7 @@ import { MyLogger } from "../utils/logger";
 @Resolver(UserType)
 export class UserTypeResolver {
   @Query(() => [UserType])
+  @Authorized("ADMIN")
   async listAllTypes(): Promise<UserType[]> {
     return await UserType.find();
   }

@@ -1,10 +1,12 @@
 import { verify } from "jsonwebtoken";
 import { Context } from "koa";
-import { MyLogger } from "src/utils/logger";
-import { MiddlewareFn } from "type-graphql";
+import { MyLogger } from "../utils/logger";
+import { AuthChecker } from "type-graphql";
 
-export const isAuth: MiddlewareFn = async (context: Context, next) => {
+export const authChecker: AuthChecker = (context: Context, roles: string[]) => {
   const authorization = context.req.headers["authorization"];
+
+  console.log(roles);
 
   if (!authorization) {
     throw new Error("not authenticated");
@@ -20,5 +22,5 @@ export const isAuth: MiddlewareFn = async (context: Context, next) => {
     throw new Error("not authenticated");
   }
 
-  await next();
+  return true;
 };
