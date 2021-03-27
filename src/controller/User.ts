@@ -2,7 +2,7 @@ import { verify } from "jsonwebtoken";
 import { Context } from "koa";
 import { createAccessToken, createRefreshToken } from "../utils/token";
 import { User } from "../entities/User";
-import { MyLogger } from "src/utils/logger";
+import { MyLogger } from "../utils/logger";
 
 interface JsonWebTokenResult {
   userId: string;

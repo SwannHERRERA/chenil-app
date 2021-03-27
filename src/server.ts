@@ -89,7 +89,7 @@ export function createServer(): AppServer {
   });
   const apolloServer = new ApolloServer({
     schema,
-    context: ({ ctx }) => ({ ctx }),
+    context: ({ ctx }) => ctx,
   });
 
   apolloServer.applyMiddleware({ app, cors: false });
