@@ -2,6 +2,7 @@ import { verify } from "jsonwebtoken";
 import { Context } from "koa";
 import { createAccessToken, createRefreshToken } from "../utils/token";
 import { User } from "../entities/User";
+import { MyLogger } from "src/utils/logger";
 
 interface JsonWebTokenResult {
   userId: string;
@@ -13,7 +14,7 @@ export function home(ctx: Context) {
 }
 
 export function sendRefreshToken(ctx: Context, token: string): void {
-  ctx.cookie.set("jid", token, {
+  ctx.cookies.set("jid", token, {
     httpOnly: true,
     path: "/user/refresh_token",
   });
@@ -33,12 +34,13 @@ export async function refresh_tokens(ctx: Context): Promise<void> {
       token!,
       process.env.REFRESH_TOKEN_SECRET!
     ) as JsonWebTokenResult;
-    user = await User.findOne({ userId: payload.userId });
+    user = await User.findOne({ where: { userId: payload.userId } });
     if (!user || user.tokenVersion !== payload.tokenVersion) {
       throw new Error("no user or token invalid");
     }
   } catch (err) {
-    console.error(err);
+    const logger = MyLogger.getLogger();
+    logger.error(err);
     ctx.body = {
       ok: false,
       accessToken: "",
