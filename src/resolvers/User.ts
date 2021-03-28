@@ -18,9 +18,21 @@ import { createRefreshToken, createAccessToken } from "../utils/token";
 import { sendRefreshToken } from "../controller/User";
 
 @ObjectType()
+class FieldError {
+  @Field()
+  field: string;
+  @Field()
+  message: string;
+}
+
+@ObjectType()
 class LoginResponse {
+  @Field(() => [FieldError], { nullable: true })
+  errors?: FieldError[];
+
   @Field()
   accessToken: string;
+
   @Field()
   user: User;
 }
