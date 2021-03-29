@@ -4,8 +4,6 @@ import { MyLogger } from "../utils/logger";
 import { MiddlewareFn } from "type-graphql";
 
 export const isAuth: MiddlewareFn<Context> = async ({ context }, next) => {
-  console.dir(context);
-
   try {
     const authorization = context.req.headers["authorization"];
 
