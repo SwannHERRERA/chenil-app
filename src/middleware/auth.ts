@@ -1,18 +1,18 @@
 import { verify } from "jsonwebtoken";
 import { Context } from "koa";
 import { MyLogger } from "../utils/logger";
-import { AuthChecker } from "type-graphql";
+import { MiddlewareFn } from "type-graphql";
 
-export const authChecker: AuthChecker = (context: Context, roles: string[]) => {
-  const authorization = context.req.headers["authorization"];
-
-  console.log(roles);
-
-  if (!authorization) {
-    throw new Error("not authenticated");
-  }
+export const isAuth: MiddlewareFn<Context> = async ({ context }, next) => {
+  console.dir(context);
 
   try {
+    const authorization = context.req.headers["authorization"];
+
+    if (!authorization) {
+      throw new Error("not authenticated");
+    }
+
     const token = authorization.split(" ")[1];
     const payload = verify(token, process.env.ACCESS_TOKEN_SECRET!);
     context.payload = payload as any;
@@ -22,5 +22,5 @@ export const authChecker: AuthChecker = (context: Context, roles: string[]) => {
     throw new Error("not authenticated");
   }
 
-  return true;
+  return next();
 };
