@@ -75,7 +75,7 @@ export function createServer(): AppServer {
         process.env.NODE_ENV === "production" ? undefined : false,
     })
   );
-  app.use(cors());
+  app.use(cors({ credentials: true }));
   app.use(cookie());
   app.use(responseTime);
   app.use(logRequest(logger));
