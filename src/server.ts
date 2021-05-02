@@ -11,6 +11,7 @@ import * as userRoute from "./routes/User";
 import { logRequest, errorHandler, responseTime } from "./middleware";
 import { UserTypeResolver } from "./resolvers/UserType";
 import { MyLogger } from "./utils/logger";
+import { InsultResolver } from "./resolvers/Insult";
 
 export class AppServer {
   private app: Koa;
@@ -85,7 +86,7 @@ export function createServer(): AppServer {
   userRoute.init(app);
 
   const schema = buildSchemaSync({
-    resolvers: [UserResolver, UserTypeResolver],
+    resolvers: [UserResolver, UserTypeResolver, InsultResolver],
   });
   const apolloServer = new ApolloServer({
     schema,
